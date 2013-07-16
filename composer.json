@@ -1,0 +1,24 @@
+{
+    "name": "pingencom/pingen",
+    "type": "library",
+    "description": "The official API-Class for using pingen.com",
+    "keywords": ["pingencom", "pingen", "pingen api"],
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Graem Lourens",
+            "email": "graem.lourens@pingen.com"
+        },
+        {
+            "name": "Manuel Reinhard",
+            "email": "manu@sprain.ch"
+        }
+    ],
+    "require": {
+        "php": ">=5.2",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "classmap": ["/"]
+    }
+}
