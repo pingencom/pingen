@@ -1,5 +1,11 @@
 <?php
 
+namespace Pingen;
+
+use Buzz\Browser;
+use Buzz\Message\Form\FormRequest;
+use Buzz\Message\Form\FormUpload;
+
 /**
  * A class to use the API of pingen.com as an integrator (Version 1.05)
  *
@@ -37,8 +43,6 @@
  *
  * @link https://www.pingen.com/en/developer.html
  */
-
-
 class Pingen
 {
     /**
@@ -124,7 +128,7 @@ class Pingen
      */
     public function document_list($iLimit = 0, $iPage = 1, $sSort = 'date', $sSortType = 'desc', $aFilter = array())
     {
-        return $this->execute("document/list/limit/$iLimit/page/$iPage/sort/$sSort/sorttype/$sSortType" . $this->parse_filters($aFilter));
+        return $this->execute('GET', "document/list/limit/$iLimit/page/$iPage/sort/$sSort/sorttype/$sSortType" . $this->parse_filters($aFilter));
     }
 
     /**
@@ -137,7 +141,7 @@ class Pingen
      */
     public function document_get($iDocumentId)
     {
-        return $this->execute("document/get/id/$iDocumentId");
+        return $this->execute('GET', "document/get/id/$iDocumentId");
     }
 
     /**
@@ -150,7 +154,7 @@ class Pingen
      */
     public function document_pdf($iDocumentId)
     {
-        return $this->execute("document/pdf/id/$iDocumentId");
+        return $this->execute('GET', "document/pdf/id/$iDocumentId");
     }
 
     /**
@@ -165,7 +169,7 @@ class Pingen
      */
     public function document_preview($iDocumentId, $iPage = 1, $iSize = 595)
     {
-        return $this->execute("document/preview/id/$iDocumentId/page/$iPage/size/$iSize");
+        return $this->execute('GET', "document/preview/id/$iDocumentId/page/$iPage/size/$iSize");
     }
 
     /**
@@ -176,7 +180,7 @@ class Pingen
      */
     public function document_delete($iDocumentId)
     {
-        return $this->execute("document/delete/id/$iDocumentId");
+        return $this->execute('POST', "document/delete/id/$iDocumentId");
     }
 
     /**
@@ -192,7 +196,7 @@ class Pingen
     public function document_send($iDocumentId, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR)
     {
         $aData = array('speed' => $iSpeed, 'color' => $iColor);
-        return $this->execute("document/send/id/$iDocumentId", $aData);
+        return $this->execute('POST', "document/send/id/$iDocumentId", $aData);
     }
 
     /**
@@ -209,7 +213,7 @@ class Pingen
     public function document_upload($sFile, $iSend = 0, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR)
     {
         $aOptions = array('send' => $iSend, 'speed' => $iSpeed, 'color' => $iColor);
-        return $this->execute('document/upload', $aOptions, $sFile);
+        return $this->execute('POST', 'document/upload', $aOptions, $sFile);
     }
 
     /**
@@ -226,7 +230,7 @@ class Pingen
      */
     public function letter_list($iLimit = 0, $iPage = 1, $sSort = 'date', $sSortType = 'desc', $aFilter = array())
     {
-        return $this->execute("letter/list/limit/$iLimit/page/$iPage/sort/$sSort/sorttype/$sSortType" . $this->parse_filters($aFilter));
+        return $this->execute('GET', "letter/list/limit/$iLimit/page/$iPage/sort/$sSort/sorttype/$sSortType" . $this->parse_filters($aFilter));
     }
 
     /**
@@ -239,7 +243,7 @@ class Pingen
      */
     public function letter_get($iLetterId)
     {
-        return $this->execute("letter/get/id/$iLetterId");
+        return $this->execute('GET', "letter/get/id/$iLetterId");
     }
 
     /**
@@ -252,7 +256,7 @@ class Pingen
      */
     public function letter_add($aData)
     {
-        return $this->execute("letter/add", $aData);
+        return $this->execute('POST', "letter/add", $aData);
     }
 
     /**
@@ -266,7 +270,7 @@ class Pingen
      */
     public function letter_edit($iLetterId, $aData)
     {
-        return $this->execute("letter/edit/id/$iLetterId", $aData);
+        return $this->execute('POST', "letter/edit/id/$iLetterId", $aData);
     }
 
     /**
@@ -281,7 +285,7 @@ class Pingen
      */
     public function letter_preview($iLetterId, $iPage = 1, $iSize = 595)
     {
-        return $this->execute("letter/preview/id/$iLetterId/page/$iPage/size/$iSize");
+        return $this->execute('GET', "letter/preview/id/$iLetterId/page/$iPage/size/$iSize");
     }
 
     /**
@@ -294,7 +298,7 @@ class Pingen
      */
     public function letter_pdf($iLetterId)
     {
-        return $this->execute("letter/pdf/id/$iLetterId");
+        return $this->execute('GET', "letter/pdf/id/$iLetterId");
     }
 
     /**
@@ -310,7 +314,7 @@ class Pingen
     public function letter_send($iLetterId, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR)
     {
         $aData = array('speed' => $iSpeed, 'color' => $iColor);
-        return $this->execute("letter/send/id/$iLetterId", $aData);
+        return $this->execute('POST', "letter/send/id/$iLetterId", $aData);
     }
 
     /**
@@ -323,7 +327,7 @@ class Pingen
      */
     public function letter_delete($iLetterId)
     {
-        return $this->execute("letter/delete/id/$iLetterId");
+        return $this->execute('POST', "letter/delete/id/$iLetterId");
     }
 
     /**
@@ -340,7 +344,7 @@ class Pingen
      */
     public function send_list($iLimit = 0, $iPage = 1, $sSort = 'date', $sSortType = 'desc', $aFilter = array())
     {
-        return $this->execute("send/list/limit/$iLimit/page/$iPage/sort/$sSort/sorttype/$sSortType" . $this->parse_filters($aFilter));
+        return $this->execute('GET', "send/list/limit/$iLimit/page/$iPage/sort/$sSort/sorttype/$sSortType" . $this->parse_filters($aFilter));
     }
 
     /**
@@ -353,7 +357,7 @@ class Pingen
      */
     public function send_get($iSendId)
     {
-        return $this->execute("send/get/id/$iSendId");
+        return $this->execute('GET', "send/get/id/$iSendId");
     }
 
     /**
@@ -366,7 +370,7 @@ class Pingen
      */
     public function send_confirmation($iSendId)
     {
-        return $this->execute("send/confirmation/id/$iSendId");
+        return $this->execute('GET', "send/confirmation/id/$iSendId");
     }
 
     /**
@@ -379,7 +383,7 @@ class Pingen
      */
     public function send_cancel($iSendId)
     {
-        return $this->execute("send/cancel/id/$iSendId");
+        return $this->execute('GET', "send/cancel/id/$iSendId");
     }
 
     /**
@@ -392,7 +396,7 @@ class Pingen
      */
     public function send_track($iSendId)
     {
-        return $this->execute("send/track/id/$iSendId");
+        return $this->execute('GET', "send/track/id/$iSendId");
     }
 
     /**
@@ -409,7 +413,7 @@ class Pingen
         {
             $mCountries = array($mCountries);
         }
-        return $this->execute("send/speed/countries/" . implode(',', $mCountries));
+        return $this->execute('GET', "send/speed/countries/" . implode(',', $mCountries));
     }
 
     /**
@@ -426,7 +430,7 @@ class Pingen
      */
     public function queue_list($iLimit = 0, $iPage = 1, $sSort = 'date', $sSortType = 'desc', $aFilter = array())
     {
-        return $this->execute("queue/list/limit/$iLimit/page/$iPage/sort/$sSort/sorttype/$sSortType" . $this->parse_filters($aFilter));
+        return $this->execute('GET', "queue/list/limit/$iLimit/page/$iPage/sort/$sSort/sorttype/$sSortType" . $this->parse_filters($aFilter));
     }
 
     /**
@@ -439,7 +443,7 @@ class Pingen
      */
     public function queue_get($iQueueId)
     {
-        return $this->execute("queue/get/id/$iQueueId");
+        return $this->execute('GET', "queue/get/id/$iQueueId");
     }
 
     /**
@@ -453,7 +457,7 @@ class Pingen
      */
     public function queue_cancel($iQueueId, $aData = array())
     {
-        return $this->execute("queue/cancel/id/$iQueueId", $aData);
+        return $this->execute('POST', "queue/cancel/id/$iQueueId", $aData);
     }
 
     /**
@@ -470,7 +474,7 @@ class Pingen
      */
     public function contact_list($iLimit = 0, $iPage = 1, $sSort = 'id', $sSortType = 'desc', $aFilter = array())
     {
-        return $this->execute("contact/list/limit/$iLimit/page/$iPage/sort/$sSort/sorttype/$sSortType" . $this->parse_filters($aFilter));
+        return $this->execute('GET', "contact/list/limit/$iLimit/page/$iPage/sort/$sSort/sorttype/$sSortType" . $this->parse_filters($aFilter));
     }
 
     /**
@@ -483,7 +487,7 @@ class Pingen
      */
     public function contact_get($iContactId)
     {
-        return $this->execute("contact/get/id/$iContactId");
+        return $this->execute('GET', "contact/get/id/$iContactId");
     }
 
     /**
@@ -496,7 +500,7 @@ class Pingen
      */
     public function contact_add($aData)
     {
-        return $this->execute("contact/add", $aData);
+        return $this->execute('POST', "contact/add", $aData);
     }
 
     /**
@@ -510,7 +514,7 @@ class Pingen
      */
     public function contact_edit($iContactId, $aData)
     {
-        return $this->execute("contact/edit/id/$iContactId", $aData);
+        return $this->execute('POST', "contact/edit/id/$iContactId", $aData);
     }
 
     /**
@@ -523,7 +527,7 @@ class Pingen
      */
     public function contact_delete($iContactId)
     {
-        return $this->execute("contact/delete/id/$iContactId");
+        return $this->execute('POST', "contact/delete/id/$iContactId");
     }
 
     /**
@@ -537,7 +541,7 @@ class Pingen
      */
     public function calculator_fax($sNumber, $iPages = 1, $iDocuments = 1, $sCurrency = 'CHF')
     {
-        return $this->execute("calculator/fax/number/" . urlencode($sNumber) . "/pages/$iPages/documents/$iDocuments/currency/$sCurrency");
+        return $this->execute('GET', "calculator/fax/number/" . urlencode($sNumber) . "/pages/$iPages/documents/$iDocuments/currency/$sCurrency");
     }
 
     /**
@@ -555,7 +559,7 @@ class Pingen
      */
     public function calculator_post($sCountry = 'CH', $iSpeed = self::SPEED_PRIORITY, $iPrint = self::PRINT_COLOR, $iDocuments = 1, $iPagesNormal = 1, $iPagesESR = 0, $iPlan = 1, $sCurrency = 'CHF')
     {
-        return $this->execute("calculator/get/country/$sCountry/print/$iPrint/speed/$iSpeed/plan/$iPlan/documents/$iDocuments/currency/$sCurrency/pages_normal/$iPagesNormal/pages_esr/$iPagesESR");
+        return $this->execute('GET', "calculator/get/country/$sCountry/print/$iPrint/speed/$iSpeed/plan/$iPlan/documents/$iDocuments/currency/$sCurrency/pages_normal/$iPagesNormal/pages_esr/$iPagesESR");
     }
 
     /**
@@ -565,7 +569,7 @@ class Pingen
      */
     public function account_credit()
     {
-        return $this->execute("account/credit");
+        return $this->execute('GET', "account/credit");
     }
 
     /**
@@ -575,7 +579,7 @@ class Pingen
      */
     public function account_plan()
     {
-        return $this->execute("account/plan");
+        return $this->execute('GET', "account/plan");
     }
 
     /**
@@ -585,14 +589,9 @@ class Pingen
      *
      * @return object
      */
-    private function execute($sKeyword, $aBodyParameters = array(), $sFile = false)
+    private function execute($method, $sKeyword, $aBodyParameters = array(), $sFile = false)
     {
-        /* put together parameters */
-        $aData = array();
-        $aData['data'] = json_encode($aBodyParameters);
-        if ($sFile) $aData['file'] = '@' . $sFile;
-
-        /* prepare URL */
+        // prepare url
         $aURLParts = array(
             $this->sBaseURL,
             $sKeyword,
@@ -601,48 +600,41 @@ class Pingen
         );
         $sURL = implode('/', $aURLParts);
 
-        /* data may not be empty */
-        if (isset($aData['data']) && (count(json_decode($aData['data'])) == 0 || $aData['data'] == ''))
-        {
-            unset($aData['data']);
+        $browser = new Browser();
+
+        // handle file uploads
+        if ($sFile) {
+            $upload = new FormUpload();
+            $upload->setFilename(basename($sFile));
+            $upload->setContent(file_get_contents($sFile));
+
+            $request = new FormRequest();
+            $request->setField('file', $upload);
+            $request->setField('data', json_encode($aBodyParameters));
+
+            $mResponse = $browser->post($sURL, $request->getHeaders(), $request->getContent());
+
+        // handle all other requests
+        } else {
+            switch ($method) {
+                case 'GET':
+                    $mResponse = $browser->get($sURL);
+                    break;
+                case 'POST':
+                    $mResponse = $browser->post($sURL, array(), json_encode($aBodyParameters));
+                    break;
+            }
         }
 
-        $objCurlConn = curl_init();
-        curl_setopt($objCurlConn, CURLOPT_URL, $sURL);
-        curl_setopt($objCurlConn, CURLOPT_POST, 1);
-        curl_setopt($objCurlConn, CURLOPT_POSTFIELDS, $aData);
-        curl_setopt($objCurlConn, CURLOPT_RETURNTRANSFER, 1);
-
-        /*
-         * If you are having issues with invalid certificate you could optionally uncomment
-         * these following two lines (not recommended)
-         * The alternative would be to update your CA Root Certificate Bundle.
-        */
-//            curl_setopt($objCurlConn, CURLOPT_SSL_VERIFYHOST, 0);
-//            curl_setopt($objCurlConn, CURLOPT_SSL_VERIFYPEER, 0);
-
-        $mResponse = curl_exec($objCurlConn);
-
-        if ($mResponse===FALSE)
+        //handle response
+        $objResponse = json_decode($mResponse->getContent());
+        if (property_exists($objResponse, 'error') && $objResponse->error)
         {
-            throw new Exception('An error occured with the curl connection: ' . curl_error($objCurlConn));
+            throw new \Exception($objResponse->errormessage, $objResponse->errorcode);
         }
 
-        /* if PDF or Image, output plain result */
-        if (substr($mResponse, 0, 4)=='%PDF' || substr($mResponse, 1, 3)=='PNG')
-        {
-            return $mResponse;
-        }
+        return $objResponse;
 
-        $objResponse = json_decode($mResponse);
-        if ($objResponse->error)
-        {
-            throw new Exception($objResponse->errormessage, $objResponse->errorcode);
-        }
-        else
-        {
-            return $objResponse;
-        }
     }
 
     private function parse_filters($aFilters)

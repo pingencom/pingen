@@ -1,12 +1,16 @@
 <?php
 
-include "Pingen.php";
+//@fixme: The code below is not up-to-date as example.pdf does not match the sending criterias.
+//@fixme: The staging api seems not to be accepting the access token. Or maybe the documentation is unclear about what token to use in staging env?
 
-$objPingen = new Pingen('mytoken');
+include "vendor/autoload.php";
+use \Pingen\Pingen as Pingen;
+
+$objPingen = new \Pingen\Pingen('mytoken');
 
 try {
     /* example uploading a document, and automatically sending it priority and in color */
-    $objResponse = $objPingen->document_upload('example.pdf', 1, Pingen::SPEED_PRIORITY, Pingen::PRINT_COLOR);
+    $objResponse = $objPingen->send_list('example.pdf', true, Pingen::SPEED_PRIORITY, Pingen::PRINT_COLOR);
 
     /* grab send/post id */
     $iSendId = $objResponse->send[0]->send_id;
