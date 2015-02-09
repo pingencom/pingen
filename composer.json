@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": ">=5.3",
-        "kriswallsmith/buzz": "v0.10"
+        "kriswallsmith/buzz": "~0.13"
     },
     "autoload": {
         "psr-0": {
