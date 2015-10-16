@@ -3,6 +3,7 @@
 namespace Pingen;
 
 use Buzz\Browser;
+use Buzz\Client\Curl;
 use Buzz\Message\Form\FormRequest;
 use Buzz\Message\Form\FormUpload;
 
@@ -600,7 +601,9 @@ class Pingen
         );
         $sURL = implode('/', $aURLParts);
 
-        $browser = new Browser();
+        $client = new Curl();
+        $client->setTimeout(60);
+        $browser = new Browser($client);
 
         // handle file uploads
         if ($sFile) {
