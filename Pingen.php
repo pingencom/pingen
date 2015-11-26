@@ -187,11 +187,15 @@ class Pingen
      * @param int $iDocumentId
      * @param int $iSpeed
      * @param int $iColor
+     * @param int $envelopeId
      * @return object
      */
-    public function document_send($iDocumentId, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR)
+    public function document_send($iDocumentId, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR, $envelopeId = null)
     {
         $aData = array('speed' => $iSpeed, 'color' => $iColor);
+        if ($envelopeId) {
+            $aData['envelope'] = $envelopeId;
+        }
         return $this->execute("document/send/id/$iDocumentId", $aData);
     }
 
@@ -204,11 +208,15 @@ class Pingen
      * @param int $iSend
      * @param int $iSpeed
      * @param int $iColor
+     * @param int $envelopeId
      * @return object
      */
-    public function document_upload($sFile, $iSend = 0, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR)
+    public function document_upload($sFile, $iSend = 0, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR, $envelopeId = null)
     {
         $aOptions = array('send' => $iSend, 'speed' => $iSpeed, 'color' => $iColor);
+        if ($envelopeId) {
+            $aOptions['envelope'] = $envelopeId;
+        }
         return $this->execute('document/upload', $aOptions, $sFile);
     }
 
