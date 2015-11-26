@@ -585,7 +585,7 @@ class Pingen
      *
      * @return object
      */
-    private function execute($sKeyword, $aBodyParameters = array(), $sFile = false)
+    public function execute($sKeyword, $aBodyParameters = array(), $sFile = false)
     {
         /* put together parameters */
         $aData = array();
