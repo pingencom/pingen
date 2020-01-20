@@ -633,6 +633,8 @@ class Pingen
         curl_setopt($objCurlConn, CURLOPT_POST, 1);
         curl_setopt($objCurlConn, CURLOPT_POSTFIELDS, $aData);
         curl_setopt($objCurlConn, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($objCurlConn, CURLOPT_CONNECTTIMEOUT, 3); 
+        curl_setopt($objCurlConn, CURLOPT_TIMEOUT, 60);
 
         /*
          * If you are having issues with invalid certificate you could optionally uncomment
