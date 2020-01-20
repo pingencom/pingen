@@ -55,7 +55,7 @@ class Pingen
     /**
      * @constant string Library-Version
      */
-    const VERSION = 1.3;
+    const VERSION = 1.2;
 
     /**
      * @constant string Print in Black & White
