@@ -55,7 +55,7 @@ class Pingen
     /**
      * @constant string Library-Version
      */
-    const VERSION = 1.1;
+    const VERSION = 1.3;
 
     /**
      * @constant string Print in Black & White
@@ -66,6 +66,26 @@ class Pingen
      * @constant string Print in color
      */
     const PRINT_COLOR = 1;
+
+    /**
+     * @constant string Print in simplex mode
+     */
+    const PRINT_SIMPLEX = 0;
+
+    /**
+     * @constant string Print in duplex mode
+     */
+    const PRINT_DUPLEX = 1;
+
+    /**
+     * @constant string Address on the left
+     */
+    const ADDRESS_LEFT = 0;
+
+    /**
+     * @contsant string Address on the right
+     */
+    const ADDRESS_RIGHT = 1;
 
     /**
      * @constant string Sending speed priority
@@ -203,11 +223,13 @@ class Pingen
      * @param int $iSpeed
      * @param int $iColor
 	 * @param int $iEnvelopeId
+     * @param int $iDuplex
+     * @param int $iAddress
      * @return object
      */
-    public function document_send($iDocumentId, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR, $iEnvelopeId = null)
+    public function document_send($iDocumentId, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR, $iEnvelopeId = null, $iDuplex = self::PRINT_SIMPLEX, $iAddress = self::ADDRESS_LEFT)
     {
-        $aData = array('speed' => $iSpeed, 'color' => $iColor, 'envelope' => $iEnvelopeId);
+        $aData = array('speed' => $iSpeed, 'color' => $iColor, 'duplex' => $iDuplex, 'rightaddress' => $iAddress, 'envelope' => $iEnvelopeId);
         return $this->execute("document/send/id/$iDocumentId", $aData);
     }
 
@@ -222,11 +244,13 @@ class Pingen
      * @param int $iColor
 	 * @param int $iEnvelopeId
 	 * @param array $aValues
+     * @param int $iDuplex
+     * @param int $iAddress
      * @return object
      */
-    public function document_upload($sFile, $iSend = false, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR, $iEnvelopeId = null, $aValues = [])
+    public function document_upload($sFile, $iSend = false, $iSpeed = self::SPEED_PRIORITY, $iColor = self::PRINT_COLOR, $iEnvelopeId = null, $aValues = [], $iDuplex = self::PRINT_SIMPLEX, $iAddress = self::ADDRESS_LEFT)
     {
-        $aOptions = array('send' => (boolean)$iSend, 'speed' => $iSpeed, 'color' => $iColor, 'envelope' => $iEnvelopeId);
+        $aOptions = array('send' => (boolean)$iSend, 'speed' => $iSpeed, 'color' => $iColor, 'duplex' => $iDuplex, 'rightaddress' => $iAddress, 'envelope' => $iEnvelopeId);
         if (empty($aValues) === false) {
             $aOptions['values'] = $aValues;
         }
