@@ -657,7 +657,7 @@ class Pingen
         curl_setopt($objCurlConn, CURLOPT_POST, 1);
         curl_setopt($objCurlConn, CURLOPT_POSTFIELDS, $aData);
         curl_setopt($objCurlConn, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($objCurlConn, CURLOPT_CONNECTTIMEOUT, 3); 
+        curl_setopt($objCurlConn, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($objCurlConn, CURLOPT_TIMEOUT, 60);
 
         /*
